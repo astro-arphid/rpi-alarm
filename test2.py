@@ -95,22 +95,22 @@ class FirstScreen(Screen):
 		super(FirstScreen,self).__init__(**kwargs)
 		layout = GridLayout(cols=3,rows=2,spacing=30,padding=30,row_default_height=150)
 		with layout.canvas.before:
-      			Color(.2,.2,.2,1)
-        		self.rect=Rectangle(size=(800,600), pos=layout.pos)
+			Color(.2,.2,.2,1)
+			self.rect=Rectangle(size=(800,600), pos=layout.pos)
 
 		self.add_widget(layout)
 
-        	Ledbutton = ToggleButton(text="led")
-        	Ledbutton.bind(on_press=press_callback)
+		Ledbutton = ToggleButton(text="led")
+		Ledbutton.bind(on_press=press_callback)
 
-        	detectorStatus = Spinner(text='off',values=('on','no data', 'off'),size_hint=(None,None),size=(100,44))
-        	detectorStatus.bind(text=detectorUpdate)
+		detectorStatus = Spinner(text='off',values=('on','no data', 'off'),size_hint=(None,None),size=(100,44))
+		detectorStatus.bind(text=detectorUpdate)
 
-        	quitButton = Button(text="quit")
-        	quitButton.bind(on_press=end_app)
+		quitButton = Button(text="quit")
+		quitButton.bind(on_press=end_app)
 
-        	switchStatus =  switchLabel(text="Switch")
-        	switchStatus.start()
+		switchStatus =  switchLabel(text="Switch")
+		switchStatus.start()
 
 
 		def transition2(obj):
@@ -135,9 +135,9 @@ class FirstScreen(Screen):
 		buzzButton.bind(on_press=buzz)
 		buzzButton.p=GPIO.PWM(buzzerPin,4500)
 
-        	layout.add_widget(Ledbutton)
-        	layout.add_widget(detectorStatus)
-        	layout.add_widget(switchStatus)
+		layout.add_widget(Ledbutton)
+		layout.add_widget(detectorStatus)
+		layout.add_widget(switchStatus)
 		layout.add_widget(quitButton)
 		layout.add_widget(changescreenButton)
 		layout.add_widget(buzzButton)
@@ -170,11 +170,11 @@ sm.add_widget(SecondScreen(name='test2'))
 class MyApp(App):
 	def menu_callback(obj,dt):
 		if GPIO.input(buttonPin):
-        		sm.transition=FadeTransition()
+			sm.transition=FadeTransition()
 			sm.current='test'
 			return
-                else:
-                	return
+		else:
+			return
 
 	def build(self):
 
