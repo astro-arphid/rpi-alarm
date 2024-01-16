@@ -1,0 +1,17 @@
+name: gwalarm
+channels:
+  - conda-forge
+  - anaconda
+  - defaults
+dependencies:
+  - beautifulsoup4=4.8.1=py37_0
+  - healpy=1.12.10=py37hf476568_0
+  - kivy=1.11.1=py37h2394fcc_0
+  - pytables=3.5.1=py37h71ec239_0
+  - python=3.7.3=h33d41f4_1
+  - pygcn=0.1.20=py_0
+
+  - pip:
+    - gtts==2.0.4
+prefix: /home/name/miniconda3/envs/gwalarm
+

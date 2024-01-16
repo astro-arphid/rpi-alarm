@@ -1,0 +1,1385 @@
+#:kivy 1.11.0
+#:import Factory kivy.factory.Factory
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+<Image,AsyncImage>:
+    nocache:True
+    
+<Separator@Widget>:
+    rgba: 1,1,1,1
+    canvas:
+        Color:
+            rgba: self.rgba
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<HSeparator@Separator>:
+    size_hint_y: None
+    height: dp(2)
+
+<RebuildPop@ModalView>:
+    size_hint:0.6,0.6
+    auto_dismiss:False
+    on_pre_open:self.opened()
+    Label:
+        text:'Rebuilding database due to error. Please wait.'
+        font_size:dp(20)
+        color:1,1,1,1
+        size_hint_x:0.5
+    
+        
+
+<LabButton@ButtonBehavior+GridLayout>:
+    name:'default'
+    imgsource:'./IGR.jpg'
+    titletext:'n'
+    texty:'n'
+    rows:4
+    dir:'left'
+    on_press:
+        app.root.transition=SlideTransition(direction=self.dir)
+        app.root.current=self.name
+    canvas.before:
+        Color:
+            rgba:1,173/255,158/255,1 
+        Rectangle:
+            size:self.size
+            pos:self.pos
+    canvas.after:
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            width:2
+            rectangle: self.x, self.y, self.width, self.height
+    Label:
+        padding:10,0
+        text:root.titletext
+        color:0,0,0,1
+        text_size:self.width,None
+        halign:'left'
+        font_size:dp(22)
+        size_hint_y:0.2
+        markup:True
+    HSeparator:
+        rgba: 0,0,0,1
+    Label:
+        padding:10,0
+        text:root.texty
+        color:0,0,0,1
+        text_size:self.width,None
+        height:self.texture_size[1]
+        halign:'left'
+        font_size:dp(18)
+        size_hint_y:0.35
+    BoxLayout:
+        padding:2,0
+        size_hint_y:0.45
+        Image:
+            source:root.imgsource
+            allow_stretch:True
+            keep_ratio:False
+            
+    
+<DevImg@ButtonBehavior+Image>:
+    surr_col: 0.2,0.2,0.2,1
+    canvas:
+        Color:
+            rgba:self.surr_col
+        Line:
+            width:1
+            rectangle:self.x,self.y,self.width,self.height
+
+<DevPop>:
+    GridLayout:
+        rows:2
+        HisScreenButton:
+            size_hint_y:0.08
+            text:'Back to the Main Menu'
+            on_press:
+                app.root.transition=SlideTransition(direction='down')
+                app.root.current='main'
+        Image:
+            source:'./DevPage.jpg'
+            size_hint_y:0.92
+
+                    
+<DeveloperAboutButton@ButtonBehavior+BoxLayout>:
+    img1:'./IGR.jpg'
+    img2:'./UofG.jpg'
+    labtext:'About the Team'
+    on_press:
+        app.root.transition=SlideTransition(direction='up')
+        app.root.current='dev'
+    padding:0,2
+    
+    canvas.before:
+        Color:
+            rgba:1,100/255,100/255,1
+        Rectangle:
+            size:self.size
+            pos:self.pos
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            width:1
+            rectangle: self.x, self.y, self.width, self.height
+
+    Image:
+        source:root.img2
+        size_hint_x:0.35
+    Label:
+        text:'[b]' + root.labtext+'[/b]'
+        font_size:dp(20)
+        color:0,0,0,1
+        size_hint_x:0.5
+        markup:True
+    Image:
+        source:root.img1
+        size_hint_x:0.15
+        
+
+<VolSlider>:
+    orientation:'vertical'
+    Slider:
+        id:slider
+        on_value:root.changevol(self.value)
+        size_hint:1,0.75
+        min:0
+        max:100
+        value:50
+    
+    GridLayout:
+        cols:3
+        padding: 10,0
+        Label:
+            size_hint:0.1,0.25
+            font_size:dp(12)
+            text:'0'
+            color:0,0,0,1
+            valign:'top'
+            halign:'center'
+        Label:
+            size_hint:0.8,0.25
+            text:'[b]Speaker\nVolume[/b]'
+            markup:True
+            color:0,0,0,1
+            font_size:dp(12)
+            line_height:0.95
+        Label:
+            size_hint:0.1,0.25
+            text:'100'
+            color:0,0,0,1
+            font_size:dp(12)
+            valign:'top'
+            halign:'center'
+
+<MainScreenv2@Screen>:
+    notif_light_var:0
+    GridLayout:
+        rows:3
+        GridLayout:
+            canvas.before:
+                Color:
+                    rgba: 0.2,0.25,0.4,1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            rows:3
+            size_hint_y:0.25
+            BoxLayout:
+                padding:[0,30,0,0]
+                Label:
+                    text:'Gravitational Wave Alarm'
+                    font_size:dp(52)
+                    size_hint_x:0.8
+                Label:
+                    size_hint_x:0.1
+            BoxLayout:
+                padding:[30,0,0,0]
+                Label:
+                    size_hint_x:0.8
+                    text:"A real-time link with the world's network of gravitational wave detectors."
+                    font_size:dp(20)
+            Label:
+                size_hint_y:0.1
+        GridLayout:
+            canvas.before:
+                Color:
+                    rgba: .9,.9,.9,1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            cols:2
+            size_hint_y:0.6
+            padding:20,5,20,0
+            
+            LabButton:
+                name:'history'
+                titletext:'[b] Candidate Event History [/b]'
+                texty:'Browse detailed profiles on up-to-date list of candidate events in the 3rd Observing Run (O3)'
+                imgsource:'./LIGO Hanford.jpg'
+                dir:'right'
+            LabButton:
+                name:'status'
+                titletext:'[b] Detector Network Status [/b]'
+                texty:"Monitor the status of the world's network of gravitational wave interferometric detectors."
+                imgsource:'./LIGO Livingston.jpg'
+                dir:'left'
+                
+        BoxLayout:
+            padding:20,5,20,5   
+            spacing:10
+            canvas.before:
+                Color:
+                    rgba: .9,.9,.9,1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+
+            size_hint_y:0.15
+            
+            HisScreenButton:
+                id:eventsendbutton
+                text: 'Generate\ntest event'
+                halign:'center'
+                col: 0.77,0.184,0.29,1
+                on_press:
+                    self.text = "It's on \nthe way..."
+                    root.simulate()
+                size_hint_x:0.3
+                canvas.after:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        points: self.x, self.y+self.height+5, self.x+self.width+10, self.y+self.height+5
+                    
+            DeveloperAboutButton:
+                canvas.after:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        points: self.x, self.y+self.height+5, self.x+self.width, self.y+self.height+5
+            VolSlider:
+                size_hint_x:0.3
+                padding:5,5
+                canvas.after:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        points: self.x-10, self.y+self.height+5, self.x+self.width, self.y+self.height+5
+
+            
+<WrapLabel@Label>:
+    text_size: self.width,None
+    size_hint_y:None
+    height:self.texture_size[1]
+    padding:10,10
+    halign: 'center'
+    valign: 'middle'
+    font_size:dp(16)
+    
+<HisColLabel>:
+    names:
+    specialnames:
+    lookout:
+    backcolors:
+    imgsource:'./neutral.png'
+    sorttype:
+    newsort:
+    color:0,0,0,1
+    current_color:0.9,0.9,0.9,1
+    canvas.before:
+        Color:
+            rgba: self.current_color
+        Rectangle:
+            size:self.size
+            pos:self.pos    
+    canvas:
+        Color:
+            rgba: 0.6,0.6,0.6,1
+        Line:
+            width: 2
+            points: [self.x, self.y, self.x+self.width,self.y]
+    canvas.after:
+        Rectangle:
+            pos:self.pos[0]+self.width*0.87,self.pos[1]+self.height*0.2
+            size:self.width*0.1,self.height*0.6
+            source:root.imgsource
+    text_size: root.width, None
+    size:self.texture_size
+    padding:5,0
+    halign: 'center'
+    valign: 'middle'
+    font_size:dp(14)
+
+    
+<DetectLabel@ButtonBehavior+Label>:
+    prop:['GEO 600','test','test',(1,1,1,1)]
+    halign:'center'
+    color:(0,0,0,1)
+    bg_col:self.prop[3]
+    font_size:dp(14)
+    canvas.before:
+        Color:
+            rgba: self.bg_col or [1,1,1,1]
+        Rectangle:
+            pos:self.pos
+            size:self.size
+
+<StatusScreenv2@Screen>:
+    det1props: ['test1','test2','test3',[1,0,1,1]]
+    det2props: ['test1','test2','test3',[1,0,1,1]]
+    det3props: ['test1','test2','test3',[1,0,1,1]]
+    det4props: ['test1','test2','test3',[1,0,1,1]]
+    det5props: ['test1','test2','test3',[1,0,1,1]]
+    bios:['','','','','']
+
+    GridLayout:
+        canvas.before:
+            Color:
+                rgba:238/255,238/255,235/255,1
+            Rectangle:
+                size:self.size
+                pos:self.pos
+        rows:4
+        BoxLayout:
+            size_hint_y:0.1
+            BoxLayout:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        rectangle:self.x,self.y,self.width,self.height
+                DetectLabel:
+                    prop:root.det1props
+                    text:'[b]'+self.prop[0]+'[/b]'
+                    markup:True
+                    bio:root.bios[0]
+                    on_press:root.retract(self)
+                    valign:'top'
+                DetectLabel:
+                    prop:root.det1props
+                    text:self.prop[1]
+                    bio:root.bios[0]
+                    on_press:root.retract(self)
+                    valign:'top'
+                    text_size:self.width,None
+                DetectLabel:
+                    prop:root.det1props
+                    text:self.prop[2]
+                    bio:root.bios[0]
+                    on_press:root.retract(self)
+                    valign:'top'
+            BoxLayout:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        rectangle:self.x,self.y,self.width,self.height
+                DetectLabel:
+                    prop:root.det2props
+                    text:'[b]'+self.prop[0]+'[/b]'
+                    markup:True
+                    bio:root.bios[1]
+                    on_press:root.retract(self)
+                    valign:'top'
+                DetectLabel:
+                    prop:root.det2props
+                    text:self.prop[1]
+                    bio:root.bios[1]
+                    on_press:root.retract(self)
+                    valign:'top'
+                    text_size:self.width,None
+                DetectLabel:
+                    prop:root.det2props
+                    text:self.prop[2]
+                    bio:root.bios[1]
+                    on_press:root.retract(self)
+                    valign:'top'
+        GridLayout:
+            size_hint_y:0.1
+            cols:2
+            BoxLayout:
+                size_hint_x:0.5
+            BoxLayout:
+                size_hint_x:0.5
+                orientation:'horizontal'
+                Label:
+                    text: 'Detector name'
+                    color:64/255,34/255,140/255,1
+                    halign:'center'
+                Label:
+                    text: 'Current status'
+                    color:64/255,34/255,140/255,1
+                    halign:'center'
+                Label:
+                    text: 'Duration \n (hours:minutes)'
+                    halign:'center'
+                    color:64/255,34/255,140/255,1
+                    
+            
+        GridLayout:
+            cols:3
+            BoxLayout:
+                size_hint_x:0.13
+                HisScreenButton:
+                    on_press:
+                        root.manager.transition=SlideTransition(direction='right')
+                        root.manager.current='main'
+                    text:'Main Menu'
+                    size_hint:0.2,0.15
+            GridLayout:
+                rows:3
+                size_hint_x:0.84
+                padding:(0,20)
+                Label:
+                    text:'Welcome to the Detector Portal!'
+                    font_size:dp(30)
+                    color:0,0,0,1
+                    size_hint_y:0.1
+                Label:
+                    text:'Tap any of the detectors on-screen to learn more.'
+                    fontsize:22
+                    color:0,0,0,1
+                    size_hint_y:0.1
+                AsyncImage:
+                    id:imgdutycycle
+                    source:"./Detector_Plot_3.png"
+                    size_hint_y:0.8
+                    allow_stretch:True
+            BoxLayout:
+                size_hint_x:0.13
+                HisScreenButton:
+                    on_press:
+                        root.manager.transition=SlideTransition(direction='left')
+                        root.manager.current='plots'
+                    text:'Advanced \n Info'
+                    text_size:root.width,None
+                    halign:'center'
+                    valign:'top'
+                    size_hint:0.2,0.15
+        BoxLayout:
+            size_hint_y:0.1
+            BoxLayout:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        rectangle:self.x,self.y,self.width,self.height
+                DetectLabel:
+                    prop:root.det3props
+                    text:'[b]' + self.prop[0] + '[/b]'
+                    markup:True
+                    bio:root.bios[2]
+                    on_press:root.retract(self)
+                    valign:'bottom'
+                DetectLabel:
+                    prop:root.det3props
+                    text:self.prop[1]
+                    bio:root.bios[2]
+                    on_press:root.retract(self)
+                    valign:'bottom'
+                    text_size:self.width,None
+                DetectLabel:
+                    prop:root.det3props
+                    text:self.prop[2]
+                    bio:root.bios[2]
+                    on_press:root.retract(self)
+                    valign:'bottom'
+            BoxLayout:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        rectangle:self.x,self.y,self.width,self.height
+                DetectLabel:
+                    prop:root.det4props
+                    text:'[b]'+self.prop[0] + '[/b]'
+                    markup:True
+                    bio:root.bios[3]
+                    on_press:root.retract(self)
+                DetectLabel:
+                    prop:root.det4props
+                    text:self.prop[1]
+                    bio:root.bios[3]
+                    on_press:root.retract(self)
+                    valign:'bottom'
+                    text_size:self.width,None
+                DetectLabel:
+                    prop:root.det4props
+                    text:self.prop[2]
+                    bio:root.bios[3]
+                    on_press:root.retract(self)
+                    
+            BoxLayout:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Line:
+                        width:2
+                        rectangle:self.x,self.y,self.width,self.height
+                DetectLabel:
+                    prop:root.det5props
+                    text:'[b]'+self.prop[0]+'[/b]'
+                    markup:True
+                    bio:root.bios[4]
+                    on_press:root.retract(self)
+                    valign:'bottom'
+                DetectLabel:
+                    prop:root.det5props
+                    text:self.prop[1]
+                    bio:root.bios[4]
+                    on_press:root.retract(self)
+                    valign:'bottom'
+                    text_size:self.width,None
+                DetectLabel:
+                    prop:root.det5props
+                    text:self.prop[2]
+                    bio:root.bios[4]
+                    on_press:root.retract(self)
+                    valign:'bottom'
+
+<DetBioLabel@Label>:
+    text_size: self.width,None
+    height:self.texture_size[1]
+    size_hint_y:None
+    font_size:dp(16)
+    line_height:1.2
+    markup:True
+    color:0,0,0,1
+    
+<StatBio@Screen>:
+    detlist:['KAGRA','test','test',[1,1,1,1]]
+    bio: 'torep'
+    canvas.before:
+        Color:
+            rgba:.2,.2,.4,1
+        Rectangle:
+            size:self.size
+            pos:self.pos
+    canvas:
+        Color:
+            rgba:238/255,238/255,235/255,1
+        Rectangle:
+            size:self.size[0]-40,self.size[1]-40
+            pos:self.pos[0]+20,self.pos[1]+20
+    GridLayout:
+        padding:30
+        cols:2
+        BoxLayout:
+            size_hint_x:0.6
+            spacing:0,20
+            orientation:'vertical'
+            Label:
+                text:root.detlist[0]
+                size_hint_y: 0.15
+                font_size:dp(32)
+                text_size: self.width, None
+                halign: 'left'
+                color:0,0,0,1
+
+            Label:
+                text:
+                    root.detlist[1] + root.detlist[2]
+                size_hint_y:0.05
+                font_size:dp(24)
+                text_size: self.width, None
+                halign: 'left'
+                valign:'top'
+                color:0.4,0.4,0.4,1
+                                
+            DetBioLabel:
+                text: root.bio
+                size_hint_y:0.7
+            Button:
+                text:'Return to Detector Summary'
+                background_color: 0.035,0.4,0.94,1
+                on_press:root.change()
+                size_hint_y:0.1
+                size_hint_x:0.5
+        Image:
+            size_hint_x:0.4
+            source:root.detlist[0]+'.jpg'
+
+<RV@RecycleView>:
+    id:rv
+    winner:'Terrestrial'
+    viewclass:'EventContainer'
+    
+    RecycleBoxLayout:
+        default_size:None,dp(56)
+        default_size_hint:1,None
+        size_hint_y:None
+        height:self.minimum_height
+        orientation:'vertical'
+
+<KeyLabel>:
+    bgcol:1,1,1,1
+    back_color:0.9,0.9,0.9,1
+    keytext:'test'
+    cols:2
+    key:None
+    group:'keys'    
+    canvas.before:
+        Color:
+            rgba: root.back_color
+        Rectangle:
+            pos:self.pos
+            size:self.size
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            width: 1
+            points:self.x,self.y,self.x,self.y+self.height
+    BoxLayout:
+        padding:10,10
+        Label:
+            canvas.before:
+                Color:
+                    rgba: root.bgcol
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            canvas:
+                Color:
+                    rgba: 0,0,0,1 
+                Line:
+                    width:1
+                    rectangle:self.x,self.y,self.width,self.height
+            size_hint:1,1
+    Label:
+        text:root.keytext
+        color:0,0,0,1
+        font_size:dp(12)
+        
+<HisScreenButton@ButtonBehavior+Label>:
+    always_release:True
+    col:0.2,0.25,0.4,1
+    canvas.before:
+        Color:
+            rgba: self.col
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    color:1,1,1,1
+    
+<HistoryScreenv2>:
+    specialnames:['GraceID','Distance','Instruments','FAR','UpdateTime']
+    lookoutfor:['BBH','BNS','NSBH','MassGap','Terrestrial']
+    backcolors:[[202/255,214/255,235/255,1],[179/255,242/255,183/255,1],[238/255,242/255,179/255,1],[231/255,179/255,242/255,1],[242/255,179/255,179/255,1]]
+    names:['torep','torep']
+    current_key:'None'
+    current_sort:'Time Descending'
+
+    GridLayout:
+        rows:5
+        GridLayout:
+            id:grid
+            cols:6
+            size_hint_y:0.07
+            padding:[5,0]
+            canvas.before:
+                Color:
+                    rgba: [0.9,0.9,0.9,1]
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            Label:
+                text:'[b] Key: [/b]'
+                markup:True
+                color:(0,0,0,1)
+                canvas.before:
+                    Color:
+                        rgba: [0.85,0.85,0.85,1]
+                    Rectangle:
+                        pos:grid.pos
+                        size:self.size[0],self.size[1]*1.1
+
+            KeyLabel:
+                keytext:root.lookoutfor[0]
+                bgcol:root.backcolors[0]
+                key:root.lookoutfor[0]
+            KeyLabel:
+                keytext:root.lookoutfor[1]
+                bgcol:root.backcolors[1]
+                key:root.lookoutfor[1]
+
+            KeyLabel:
+                keytext:root.lookoutfor[2]
+                bgcol:root.backcolors[2]
+                key:root.lookoutfor[2]
+
+            KeyLabel:
+                keytext:root.lookoutfor[3]
+                bgcol:root.backcolors[3]
+                key:root.lookoutfor[3]
+
+            KeyLabel:
+                keytext:root.lookoutfor[4]
+                bgcol:root.backcolors[4]
+                key:root.lookoutfor[4]
+
+        HSeparator:
+            rgba:0,0,0,1
+            padding:2,0
+        GridLayout:
+            id:HisCols
+            cols:5
+            size_hint_y:0.08
+            HisColLabel:
+                text:'GraceID'
+                sorttype:root.specialnames[0]
+                names:root.names
+                specialnames:root.specialnames
+                lookout:root.lookoutfor
+                backcolors:root.backcolors
+            HisColLabel:
+                id:dist
+                text:'Distance (Mpc)'
+                sorttype:root.specialnames[1]
+                names:root.names
+                specialnames:root.specialnames
+                lookout:root.lookoutfor
+                backcolors:root.backcolors
+            HisColLabel:
+                text:'Instruments'
+                sorttype:root.specialnames[2]
+                names:root.names
+                specialnames:root.specialnames
+                lookout:root.lookoutfor
+                backcolors:root.backcolors
+            HisColLabel:
+                text:'FAR (One every ___)'
+                sorttype:root.specialnames[3]
+                names:root.names
+                specialnames:root.specialnames
+                lookout:root.lookoutfor
+                backcolors:root.backcolors
+            HisColLabel:
+                text:'Last Updated'
+                sorttype:root.specialnames[4]
+                names:root.names
+                specialnames:root.specialnames
+                lookout:root.lookoutfor
+                backcolors:root.backcolors
+        RV:
+            id:rv
+            size_hint:1,0.79
+            canvas.before:
+                Color:
+                    rgba: [0.9,0.9,0.9,1]
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+        BoxLayout:
+            padding:0,2,0,0
+            size_hint_y:0.08
+            canvas:
+                Color:
+                    rgba: 0.6,0.6,0.6,1
+                Line:
+                    width: 2
+                    points: [self.x, self.y+self.height, self.x+self.width,self.y+self.height]
+            HisScreenButton:
+                text:'Refresh database (~ 30secs)'
+                col: 0.77,0.184,0.29,1
+                on_press:root.stupid()
+                canvas:
+                    Color:
+                        rgba: 0.2,0.2,0.2,1
+                    Line:
+                        width: 1
+                        points: [self.x+self.width, self.y+self.height, self.x+self.width,self.y]
+
+            HisScreenButton:
+                text:'Main Menu'
+                on_press:
+                    root.manager.transition=SlideTransition(direction='left')
+                    root.manager.current = 'main'
+                                 
+
+<EventInfoSubHeader@GridLayout>:
+    top_text:'test'
+    bottom_text:'test'
+    color:0,0,0,1
+    rows:2
+    canvas:
+        Color:
+            rgba:0.7,0.7,0.7,0.7
+        Line:
+            width:1
+            points: self.x,self.y+self.height*0.7,self.x+self.width*0.7,self.y+self.height*0.7
+        Color:
+            rgba:0.9,0.9,0.9,0.7
+        Line:
+            width:1
+            points: self.x,self.y,self.x+self.width,self.y
+
+    Label:
+        text:root.top_text
+        font_size:dp(14)
+        color:root.color
+        halign:'left'
+        padding:3,5
+        size_hint_y:0.3
+        text_size:root.width,None
+        valign:'middle'
+    Label:
+        text: '[b]' + root.bottom_text+'[/b]'
+        markup:True
+        color:root.color
+        font_size:dp(30)
+        halign:'left'
+        padding:50,0
+        size_hint_y:0.7
+        text_size:root.width,None
+
+<SpeakerButton@ButtonBehavior+Label>:
+    canvas:
+        Rectangle:
+            pos:self.pos
+            size:self.size
+            source: './Loudspeaker.png'
+
+
+<EventInfoHeader>:
+    cols:4
+    graceid:'torep'
+    revision:'1'
+    color:0,0,0,1
+    paramdict:
+    var:1
+    speak:0
+    speaker_color:0,0,0,0
+    canvas.before:
+        Color:
+            rgba: 0.9,0.9,0.9,1
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    EventInfoSubHeader:
+        top_text: 'Event information for'
+        bottom_text:root.graceid
+        color:root.color
+        size_hint_x:0.5
+    EventInfoSubHeader:
+        top_text:'Revision'
+        bottom_text: root.revision
+        color:root.color
+        size_hint_x:0.3
+    BoxLayout:
+        padding:3,3
+        size_hint_x:0.08
+        SpeakerButton:
+            on_press:root.read_aloud()
+            on_release:root.speaker_back()
+            canvas.after:
+                Color:
+                    rgba:0,0,0,1
+                Line:
+                    width:1
+                    rectangle:self.x,self.y,self.width,self.height
+                Color:
+                    rgba:root.speaker_color or [0,0,0,0]
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+    
+<InfoContainer@GridLayout>:
+    text1:'torep'
+    text2:'torep'
+    cols:2
+    InfoLabel:
+        size_hint_x:0.5
+        text:'[b]'+root.text1+'[/b]'
+        markup:True
+        halign:'center'
+    InfoLabel:
+        size_hint_x:0.5
+        text:root.text2
+        halign:'left'
+        text_size:root.width/2,None
+        
+<InfoLabel@Label>:
+    bg_col:(0,0,0,0)
+    color:(0,0,0,1)
+    canvas.before:
+        Color:
+            rgba:self.bg_col
+        Rectangle:
+            size:self.size
+            pos:self.pos
+
+<SkyPop>:
+    imgsource:'./IGR.jpg'
+    GridLayout:
+        rows:2
+        Image:
+            source:root.imgsource
+            allow_stretch:'True'
+            size_hint_y:0.9
+        HisScreenButton:
+            text:'Back to Event Parameters'
+            font_size:dp(20)
+            size_hint_y:0.1
+            on_press:
+                app.root.transition=SlideTransition(direction='up')
+                app.root.current='historypop'
+
+<SkymapButton@ButtonBehavior+AsyncImage>:
+    source:'./IGR.jpg'
+    allow_stretch:True
+    keep_ratio:False
+    canvas.after:
+        Color:
+            rgba: 0,0,0,0.6
+        Rectangle:
+            source:'./tap.png'
+            pos:self.pos[0]+3,self.pos[1]+self.height*0.75
+            size:self.height*0.22,self.height*0.22
+            
+    
+<InfoPop>:
+    part1info:['HasRemnant','HasNS']
+    part2info:['GraceID','Distance','FAR','DetectionTime','UpdateTime','Instruments']
+    part3info:['BBH','BNS','NSBH','MassGap','Terrestrial']
+    keycolors:[[202/255,214/255,235/255,1],[179/255,242/255,183/255,1],[238/255,242/255,179/255,1],[231/255,179/255,242/255,1],[242/255,179/255,179/255,1]]
+
+    var:1
+    namelist: ['AlertType', 'BBH', 'BNS', 'DetectionTime', 'Distance', 'FAR', 'GraceID', 'Group', 'HasNS', 'HasRemnant', 'Instruments', 'MassGap', 'NSBH', 'Revision', 'Terrestrial', 'UpdateTime', 'skymap']
+    row: ['Initial', '100.000%', '<0.1%', '2019-04-08 at 18:18:02', '1472.901 +- 357.875 Mpc', 'One every 11.28 Billion years', 'S190408an', 'CBC', '< 0.1%', '12.00%', 'H1,L1,V1', '<0.1%', '<0.1%', '2', '<0.1%', '2019-04-08 at 20:21:42', 'S190408an.png']
+    rowdict:dict(zip(self.namelist,self.row))
+    
+    background_color: [.2,.2,.4,1]
+    
+#    canvas.before:
+#        Color:
+#            rgba:1,1,1,1
+#        Rectangle:
+#            pos:self.pos
+#            size:self.size
+    canvas:
+        Color:
+            rgba:0,0,0,1
+        Line:
+            width:1
+            rectangle:self.x,self.y,self.width,self.height
+    GridLayout:
+        rows:2
+        BoxLayout:
+            size_hint_y:0.13
+            orientation:'vertical'
+            EventInfoHeader:
+                id:header
+                var:root.var
+                color:0,0,0,1
+                graceid:root.rowdict['GraceID']
+                revision:root.rowdict['Revision']
+                paramdict:root.rowdict
+        GridLayout:
+            cols:3
+            size_hint_y:0.87
+
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint:(0.25,1)
+                GridLayout:
+                    rows:3
+                    padding: 0,0
+                    canvas.before:
+                        Color:
+                            rgba: .9,.9,.9,1
+                        Rectangle:
+                            pos:self.pos
+                            size:self.size
+                    canvas.after:
+                        Color:
+                            rgba:0,0,0,1
+                        Line:
+                            width:1
+                            rectangle:self.x,self.y,self.width,self.height
+                    GridLayout:
+                        rows:3
+                        padding:0,10
+                        canvas.before:
+                            Color:
+                                rgba:242/255,211/255,242/255,1
+                            Rectangle:
+                                pos:self.pos
+                                size:self.size
+        
+                        Label:
+                            size_hint:1,0.4
+                            text:'If [b]astrophysical[/b]\nin origin. . .'
+                            font_size: dp(20)
+                            color:0,0,0,1
+                            markup:True
+                            canvas.before:
+                                Color:
+                                    rgba:.4,.4,.4,1
+                                Line:
+                                    width:1
+                                    points:self.x+self.width*0.05,self.y,self.x+self.width*0.95,self.y
+
+                        GridLayout:
+                            rows:2
+                            size_hint:1,0.3
+                            Label:
+                                text:root.part1info[0][3:]+' present?'
+                                font_size:dp(14)
+                                text_size:self.width,None
+                                height:self.texture_size[1]
+                                halign:'center'
+                                color:0,0,0,1
+                            Label:
+                                text:root.rowdict[root.part1info[0]]
+                                font_size:dp(20)
+                                color:0,0,0,1
+                        GridLayout:                                
+                            rows:2
+                            size_hint:1,0.3
+                            Label:
+                                text:'NS progenitor?'
+                                font_size:dp(14)
+                                halign:'center'
+                                color:0,0,0,1
+                            Label:
+                                text:root.rowdict[root.part1info[1]]
+                                font_size:dp(20)
+                                color:0,0,0,1
+                                
+                    HisScreenButton:
+                        size_hint:(1,0.15)
+                        padding:10,2
+                        text:'Open Glossary'
+                        on_press:root.gloss_open()
+                        canvas:
+                            Color:
+                                rgba: 0.2,0.2,0.2,1
+                            Line:
+                                width: 1
+                                points: [self.x, self.y, self.x+self.width,self.y]
+                    HisScreenButton:
+                        id:but1
+                        text:'Back to Event History'
+                        size_hint_y:0.15
+                        on_press:
+                            root.manager.get_screen('main').notif_off()
+                            root.manager.transition=SlideTransition(direction='left')
+                            root.manager.current='history'
+                        
+            GridLayout:
+                rows:2
+                size_hint:(0.4,1)
+                GridLayout:
+                    rows: len(root.part2info)
+                    size_hint_y:0.6
+                    canvas.before:
+                        Color:
+                            rgba: (0.9,0.9,0.9,1)
+                        Rectangle:
+                            size:self.size
+                            pos:self.pos
+                    canvas.after:
+                        Color:
+                            rgba:0,0,0,1
+                        Line:
+                            width:1
+                            rectangle:self.x,self.y,self.width,self.height
+                    InfoContainer:
+                        text1:root.part2info[1]
+                        text2:root.rowdict[root.part2info[1]].replace('+-',u'\xb1')
+                    InfoContainer:
+                        text1: root.part2info[2]
+                        text2:root.rowdict[root.part2info[2]]
+                    InfoContainer:
+                        text1:root.part2info[3]
+                        text2:root.rowdict[root.part2info[3]]
+                    InfoContainer:
+                        text1: root.part2info[4]
+                        text2:root.rowdict[root.part2info[4]]
+                    InfoContainer:
+                        text1: root.part2info[5]
+                        text2:root.rowdict[root.part2info[5]]
+                GridLayout:
+                    size_hint_y:0.4
+                    rows: len(root.part3info)
+                    canvas.after:
+                        Color:
+                            rgba:250/255,247/255,80/255,1
+                        Line:
+                            width:2
+                            points: [self.x+self.width+1,self.y+self.height,self.x,self.y+self.height,self.x,self.y,self.x+self.width+1,self.y]
+                    InfoLabel:
+                        text:root.part3info[0] + ':' + root.rowdict[root.part3info[0]]
+                        bg_col:root.keycolors[0]
+                        color:0,0,0,1
+                    InfoLabel:
+                        text:root.part3info[1] + ':' + root.rowdict[root.part3info[1]]
+                        bg_col:root.keycolors[1]
+                        color:0,0,0,1
+
+                    InfoLabel:
+                        text: root.part3info[2] + ':' + root.rowdict[root.part3info[2]]
+                        bg_col:root.keycolors[2]
+                        color:0,0,0,1
+                    InfoLabel:
+                        text:root.part3info[3] + ':' + root.rowdict[root.part3info[3]]
+                        bg_col:root.keycolors[3]
+                        color:0,0,0,1
+                    InfoLabel:
+                        text: root.part3info[4] + ':' + root.rowdict[root.part3info[4]]
+                        bg_col:root.keycolors[4]
+                        color:0,0,0,1
+
+            GridLayout:
+                rows:2
+                size_hint:(0.33,1)
+                canvas.before:
+                    Color:
+                        rgba:242/255,211/255,242/255,1
+                    Rectangle:
+                        pos:self.pos
+                        size:self.size
+                    Color:
+                        rgba:0,0,0,1
+                    Line:
+                        width:1
+                        rectangle:self.x,self.y+self.height*0.65,self.width,self.height*0.35
+                SkymapButton:
+                    id:skybutton
+                    source:root.rowdict['skymap']
+                    on_press:
+                        app.root.transition=SlideTransition(direction='down')
+                        root.update_skymap()
+                    size_hint_y:0.35
+
+                BoxLayout:
+                    size_hint:(1,0.65)
+                    canvas.after:
+                        Color:
+                            rgba:250/255,247/255,80/255,1
+                        Line:
+                            width:2
+                            points:[self.x-2,self.y+self.height*0.61,self.x-2,self.y+self.height,self.x+self.width,self.y+self.height,self.x+self.width,self.y,self.x-2,self.y]
+
+                    AsyncImage:
+                        source:root.rowdict['GraceID']+'_pie.png'
+                        allow_stretch:True
+<PlotContainer@GridLayout>:
+    imsource:'test'
+    desc:'test'
+    rows:2
+    padding:15,1
+    AsyncImage:
+        id:image
+        source:root.imsource
+        size_hint_y:0.8
+    ScrollView:
+        do_scroll_x:False
+        size_hint_y:0.2
+        canvas.before:
+            Color:
+                rgba:95/255,95/255,169/255,1
+            Rectangle:
+                size:self.size
+                pos:self.pos
+        canvas:
+            Color:
+                rgba: 0,0,0,1
+            Line:
+                width:2
+                rectangle:self.x,self.y,self.width,self.height
+        WrapLabel:
+            text:root.desc
+            color:1,1,1,1
+
+
+<PlotsScreen@Screen>:
+    imgsources:['test','test','test','test']
+    descs:['test','test','test','test']
+    
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            size:self.size
+            pos:self.pos 
+             
+    GridLayout:
+        rows:3
+        GridLayout:
+            cols:4
+            size_hint_y:0.1
+            canvas.before:
+                Color:
+                    rgba:0,0,0,1
+                Line:
+                    width:1
+                    points:self.x,self.y,self.x+self.width,self.y
+
+            HisScreenButton:
+                id:pbut1
+                text: 'Detector Noise Curves'
+                col:0.2,0.25,0.6,1
+                on_press:
+                    plotcaro.index=0
+                    self.col=0.2,0.25,0.6,1
+                    pbut2.col=0.035,0.4,0.94,1
+                    pbut3.col=0.035,0.4,0.94,1
+                canvas.before:
+                    Color:
+                        rgba:0.2,0.2,0.2,1
+                    Line:
+                        width:1
+                        points:self.x+self.width,self.y,self.x+self.width,self.y+self.height
+
+            HisScreenButton:
+                id:pbut2
+                text: "Today's Status History"
+                col:0.035,0.4,0.94,1
+                on_press:
+                    plotcaro.index=1
+                    self.col=0.2,0.25,0.6,1
+                    pbut1.col=0.035,0.4,0.94,1
+                    pbut3.col=0.035,0.4,0.94,1
+                canvas.before:
+                    Color:
+                        rgba:0.2,0.2,0.2,1
+                    Line:
+                        width:1
+                        points:self.x+self.width,self.y,self.x+self.width,self.y+self.height
+
+
+            HisScreenButton:
+                id:pbut3
+                text:'BNS Inspiral Detection Ranges'
+                col:0.035,0.4,0.94,1
+                on_press:
+                    plotcaro.index=2
+                    self.col=0.2,0.25,0.6,1
+                    pbut2.col=0.035,0.4,0.94,1
+                    pbut1.col=0.035,0.4,0.94,1
+
+        Carousel:
+            id:plotcaro
+            on_index:root.update_buttons(self.index)
+            direction:'right'
+            size_hint_y:0.8
+            PlotContainer:
+                id:img1
+                imsource:root.imgsources[0]
+                desc:root.descs[0]
+            PlotContainer:
+                id:img2
+                imsource:root.imgsources[1]
+                desc:root.descs[1]
+            PlotContainer:
+                id:img3
+                imsource:root.imgsources[2]
+                desc:root.descs[2]
+            
+        HisScreenButton:
+            on_press:
+                root.manager.transition=SlideTransition(direction='right')
+                root.manager.current='status'
+            text:'Back to the Detector Portal'
+            size_hint_y:0.08
+    
+<DetGrid@GridLayout>:
+    current_color: (0,0,0,0)
+
+    canvas.before:
+        Color:
+            rgba: self.current_color
+        Rectangle:
+            size:self.size
+            pos:self.pos        
+
+<GlossDefLabel@Label>:
+    nom:'tobereplaced'
+    desc:'tobereplaced'
+    padding:(3,10)
+    spacing:(0,3)
+
+    text:'[size=16dp][b][u]'+self.nom+'[/b][/u][/size] \n' + self.desc
+    valign:'top'
+    size_hint_y:None
+    text_size: root.width, None
+    height:self.texture_size[1]
+    halign: 'justify'
+    font_size:dp(12)
+    line_height:1
+    markup:True
+    color:0,0,0,1
+    
+<Glossary@RecycleView>
+    viewclass: 'GlossDefLabel'
+    canvas.before:
+        Color:
+            rgba:0.9,0.9,0.9,1
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    RecycleBoxLayout:
+        default_size:None,dp(56)
+        default_size_hint:1,None
+        size_hint_y:None
+        height:self.minimum_height
+        orientation:'vertical'
+        padding:[0,20]
+        
+	
+<HisMainLabel@Label>:
+    color:0,0,0,1
+    font_size:dp(14)
+
+<EventContainer>:
+    name: None
+    text0:'tobereplaced'
+    text1:'tobereplaced'
+    text2:'tobereplaced'
+    text3:'tobereplaced'
+    text4:'tobereplaced'
+    text5:'tobereplaced'
+    row:['Initial', '100.000%', '<0.1%', '2019-04-08 at 18:18:02', '1472.901 +- 357.875 Mpc', 'One every 11.28 Billion years', 'S190408an', 'CBC', '< 0.1%', '12.00%', 'H1,L1,V1', '<0.1%', '<0.1%', '2', '<0.1%', '2019-04-08 at 20:21:42', 'S190408an.png']
+    pop:
+    img:
+    namelist: ['AlertType', 'BBH', 'BNS', 'DetectionTime', 'Distance', 'FAR', 'GraceID', 'Group', 'HasNS', 'HasRemnant', 'Instruments', 'MassGap', 'NSBH', 'Revision', 'Terrestrial', 'UpdateTime', 'skymap']
+    bgcol: 0.9,0.9,0.9,1
+    on_press:self.details()
+    canvas.before:
+        Color:
+            rgba: self.bgcol
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    canvas:
+        Color:
+            rgba:0.2,0.2,0.2,0.4
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
+    cols:5
+    HisMainLabel:
+        text:root.text0      
+    HisMainLabel:
+        text:root.text1
+    HisMainLabel:
+        text:root.text2
+    HisMainLabel:
+        text:root.text3
+    BoxLayout:
+        orientation:'vertical'
+        HisMainLabel:
+            text:root.text4
+        HisMainLabel:
+            text:root.text5
